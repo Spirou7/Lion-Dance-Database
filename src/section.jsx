@@ -4,54 +4,72 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './section.css'
 
-function BuildAccordionItem({title, content}){
-
+function BuildAccordionItem({ title, content }) {
   const [isActive, setIsActive] = useState(false);
   const contentRef = useRef(null); // Create a ref for the element
+  const childRef = useRef(null);
   const [height, setHeight] = useState(0); // Store calculated height
 
   const toggleExpand = () => {
-    console.log("toggling");
-    const contentEl = contentRef.current;
-
-    if (contentEl) {
-      if (!isActive) {
-        console.log("attempting to set height to max");
-
-        // Measure and expand
-        setHeight(contentEl.scrollHeight + 30); // Get full content height
-      } else {
-        console.log("setting height to low");
-        // Collapse
-        setHeight(0);
-      }
-
-      setIsActive(!isActive);
-    }
+    setIsActive(!isActive); // Toggle active state
   };
 
+  useEffect(() => {
+    const contentEl = contentRef.current;
+
+    const handleResize = () => {
+      if (childRef.current && isActive) {
+        setHeight(childRef.current.scrollHeight + 30);
+      }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+        handleResize();
+    });
+
+    // Start observing the child element
+    if (childRef.current) {
+      resizeObserver.observe(childRef.current);
+    }
+
+    return () => {
+      if (childRef.current) {
+        resizeObserver.unobserve(childRef.current);
+      }
+    };
+
+  }, [childRef, isActive]); // Re-run the effect when `isActive` or `content` changes
+  
+  useEffect(() => {
+      const contentEl = contentRef.current;
+      if(contentEl){
+        setHeight(isActive ? contentEl.scrollHeight + 30 : 0);
+
+        if(isActive){
+          console.log("something was already active");
+        }
+      }
+  }, [isActive, content]);
+
   const style = {
-    overflow: 'hidden',  // Correct - no semicolon
-    height: '' + (height) + 'px',           // Correct - no semicolon
-    transition: 'height 300ms ease',          // Correct - no semicolon
+    overflow: 'hidden',
+    height: `${height}px`, // Dynamic height based on state
+    transition: 'height 300ms ease',
   };
 
   return (
-    <>
-      <div className="accordion-item">
-          <div className="accordion-title" onClick={toggleExpand}>
-            <div>{title}</div>
-            <div>{isActive ? "-" : "+"}</div>
-          </div>
-
-          <div
-          ref={contentRef}
-          style = {style}
-          >
-            {content}
-          </div>
+    <div className="accordion-item">
+      <div className="accordion-title" onClick={toggleExpand}>
+        <div>{title}</div>
+        <div>{isActive ? '-' : '+'}</div>
       </div>
-    </>
+
+      <div ref={contentRef} style={style}>
+        <div ref={childRef}>
+        {content}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -144,7 +162,7 @@ function App() {
 
   return (
     <>
-      <div className="performance_name">Winter Quarter 2024</div>
+      <div className="performance_name">Winter Quarter 2025</div>
       <div className="accordion">
         {loading ? <p>Loading...</p> : sectionsArray}
       </div>

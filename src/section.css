@@ -56,13 +56,15 @@
 
 .step_video{
     margin-top:30px;
-    margin-left:10px;
-    width: 70vw;
+    margin-left:5%;
+    margin-right:5%;
+    width: 90%;
     height:40vw;
 }
 
 .video_drop_down{
     width: 80vw;
+    max-width:500px;
     margin:auto;
     margin-top:10px;
 }
