@@ -5,6 +5,8 @@
     display:flex;
     flex-direction:column;
     margin-top: 20px;
+    margin:auto;
+    margin-bottom:20px;
 }
 
 .accordion-title {
@@ -19,6 +21,11 @@
     padding-right:20px;
     padding-top:10px;
     padding-bottom: 10px;
+    cursor:pointer;
+}
+
+.video_drop_down .accordion-title{
+    font-size:20px;
 }
 
 .accordion-content{
@@ -28,6 +35,7 @@
 .performance_name{
     margin-top:20px;
     margin-bottom:20px;
+    margin-left:5vw;
     font-size:45px;
 }
 
@@ -48,5 +56,22 @@
 
 .step_video{
     margin-top:30px;
-    margin-left:40px;
+    margin-left:10px;
+    width: 70vw;
+    height:40vw;
+}
+
+.video_drop_down{
+    width: 80vw;
+    margin:auto;
+    margin-top:10px;
+}
+
+.section_accordion{
+    width: 90vw;
+    margin:auto;
+}
+
+.step_separator{
+    width: 90%;
 }

@@ -1,3 +1,7 @@
+:root {
+    --header-height: 70px;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -5,7 +9,7 @@ html, body {
 }
 
 body {
-    padding-top:50px;
+    padding-top:var(--header-height);
 }
 
 .logo{
@@ -18,7 +22,7 @@ body {
     flex-direction:row;
     justify-content: space-between;
     border-bottom:1px solid black;
-    height:50px;
+    height:var(--header-height);
     width:100vw;
     align-items: center;
     position:fixed;
@@ -33,17 +37,18 @@ body {
 }
 
 .tab{
-    border-left: 1px solid gray;
     display:flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding-left:5px;
     padding-right: 5px;
-    height:50px;
+    height:var(--header-height);
 }
 
 .tab:hover{
-    background-color:rgb(212, 212, 212);
+    background-color:rgb(255, 0, 0);
     transition-duration: 300ms;
+    color:white;
+    cursor:pointer;
 }

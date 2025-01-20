@@ -57,12 +57,21 @@ function BuildAccordionItem({title, content}){
 
 function BuildStep(name, directions, image_url){
   let image_style = "background-url: url(" + image_url + ")";
+
+  const video = <iframe className="step_video" src={image_url} width="400vw" height="400vw" allow="autoplay"></iframe>;
+
   return (
     <>
       <div className="step">
         <div className="step_name"> {name}</div>
         <div className="step_directions"> {directions} </div>
-        <iframe className="step_video" src={image_url} width="400vw" height="400vw" allow="autoplay"></iframe>
+        <div className = "video_drop_down">
+          <BuildAccordionItem
+          title="Video Demonstration"
+          content={video}
+          />
+        </div>
+        <hr className = "step_separator"></hr>
       </div>
     </>
   )
@@ -97,11 +106,12 @@ function BuildAllSections(sections) {
 
     // Create section HTML
     const section_html = (
+      <div className = "section_accordion">
       <BuildAccordionItem
         key={i} // Add a key for each item
         title={section_name}
-        content={all_steps_html}
-      />
+        content={all_steps_html}/>
+      </div>
     );
 
     sectionsArray.push(section_html);
