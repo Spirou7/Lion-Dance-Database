@@ -10,9 +10,18 @@
                     "image_url" : "https://drive.google.com/file/d/1ATnOqyB_0rnYgAA5cmHlCe0uDm0mOlf0/preview"
                 },
                 {
-                    "name" : "Run/Shake Up",
-                    "directions" : "swaying your head side to side, run up a couple of stepes until you hear a drum beat",
+                    "name" : "Run while Shaking Head",
+                    "directions" : "swaying your head side to side, run up a couple of steps until you hear a drum beat, where you then launch your head up",
                     "image_url" : ""
+                },
+                {
+                    "name" : "Three Steps Back",
+                    "directions" : "Take three steps back, once per beat",
+                    "image_url" : ""
+                },
+                {
+                    "name" : "Three Swooping Bows",
+                    "directions" : "Starting on left side, swing your head down behind you, and bring it back to the front with a snap, then dropping it down to your shoulder level. Repeat 3 times."
                 }
             ]
         },

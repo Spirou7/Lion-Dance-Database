@@ -74,7 +74,7 @@ function BuildAllSteps(array_of_steps){
 
     let step = array_of_steps[i];
 
-    let step_html = BuildStep(step.name, step.directions, step.image_url);
+    let step_html = BuildStep("" + (i + 1)+ ") " + step.name, step.directions, step.image_url);
 
     all_steps.push(step_html);
   }
