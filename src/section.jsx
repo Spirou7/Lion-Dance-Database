@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './section.css'
@@ -6,16 +7,48 @@ import './section.css'
 function BuildAccordionItem({title, content}){
 
   const [isActive, setIsActive] = useState(false);
+  const contentRef = useRef(null); // Create a ref for the element
+  const [height, setHeight] = useState(0); // Store calculated height
+
+  const toggleExpand = () => {
+    console.log("toggling");
+    const contentEl = contentRef.current;
+
+    if (contentEl) {
+      if (!isActive) {
+        console.log("attempting to set height to max");
+
+        // Measure and expand
+        setHeight(contentEl.scrollHeight + 30); // Get full content height
+      } else {
+        console.log("setting height to low");
+        // Collapse
+        setHeight(0);
+      }
+
+      setIsActive(!isActive);
+    }
+  };
+
+  const style = {
+    overflow: 'hidden',  // Correct - no semicolon
+    height: '' + (height) + 'px',           // Correct - no semicolon
+    transition: 'height 300ms ease',          // Correct - no semicolon
+  };
 
   return (
     <>
       <div className="accordion-item">
-          <div className="accordion-title" onClick={() => setIsActive(!isActive)}>
+          <div className="accordion-title" onClick={toggleExpand}>
             <div>{title}</div>
             <div>{isActive ? "-" : "+"}</div>
           </div>
-          <div className="all_steps">
-          {isActive && content}
+
+          <div
+          ref={contentRef}
+          style = {style}
+          >
+            {content}
           </div>
       </div>
     </>
@@ -29,7 +62,7 @@ function BuildStep(name, directions, image_url){
       <div className="step">
         <div className="step_name"> {name}</div>
         <div className="step_directions"> {directions} </div>
-        <div className="step_image" style={{image_style}}></div>
+        <iframe className="step_video" src={image_url} width="400vw" height="400vw" allow="autoplay"></iframe>
       </div>
     </>
   )
@@ -51,72 +84,62 @@ function BuildAllSteps(array_of_steps){
   ));
 }
 
-function BuildAllSections(json_file, sectionsArray, setSectionsArray){
-  const [isLoading, setIsLoading] = useState(true);
+function BuildAllSections(sections) {
+  let sectionsArray = [];
 
-  fetch(json_file)
-  .then((response) => {
-    
-    console.log(response);
-    return response.json()})
-  .then((performance => {
-    console.log(performance)
-    // THIS IS WHERE THE FUN BEGINS
-    const performance_name = performance.name;
-    const sections = performance.sections;
+  // Build the sections array
+  for (let i = 0; i < sections.length; i++) {
+    const section_name = sections[i].name;
+    const all_steps = sections[i].steps;
 
-    // Holds an array of all sections
-    let sections_array = [];
+    // Create the HTML of the steps
+    const all_steps_html = BuildAllSteps(all_steps);
 
-    // For every section...
-    // Update the sections array
-    for(let i = 0; i < sections.length; i++){
+    // Create section HTML
+    const section_html = (
+      <BuildAccordionItem
+        key={i} // Add a key for each item
+        title={section_name}
+        content={all_steps_html}
+      />
+    );
 
-      const section_name = sections[i].name;
-      // Get all of the steps
-      const all_steps = sections[i].steps;
-      
-      // Create the HTML of the steps
-      const all_steps_html = BuildAllSteps(all_steps);
+    sectionsArray.push(section_html);
+  }
 
-      const section_html = <>
-        <BuildAccordionItem
-          title={section_name}
-          content={all_steps_html}
-        />
-      </>
-
-      sections_array.push(section_html);
-    }
-
-
-    
-    sections_array = sections_array.map((item, index) => (
-      <div key={index}>{item}</div>
-    ));
-
-    setSectionsArray(sections_array);
-    setIsLoading(false);
-
-  }));
+  return sectionsArray;
 }
 
 function App() {
-  const [count, setCount] = useState(0);
   const [sectionsArray, setSectionsArray] = useState([]); // State to store sections data
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const performance_file = '/performance.json';
 
-  const performance_file = "/performance.json";
-  BuildAllSections(performance_file, sectionsArray, setSectionsArray);
+    // Fetch performance data
+    fetch(performance_file)
+      .then((response) => response.json())
+      .then((performance) => {
+        const sections = performance.sections;
+        const sectionsHTML = BuildAllSections(sections);
+        setSectionsArray(sectionsHTML);
+        setLoading(false); // Data loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching performance data:', error);
+        setLoading(false); // Stop loading on error
+      });
+  }, []);
 
   return (
     <>
-      <div id="title">Stanford Lion Dancing</div>
+      <div className="performance_name">Winter Quarter 2024</div>
       <div className="accordion">
-        {sectionsArray}
+        {loading ? <p>Loading...</p> : sectionsArray}
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

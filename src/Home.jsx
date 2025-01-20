@@ -16,7 +16,6 @@ function BuildPerformanceListElement({ name, performance_url, performance_link }
 }
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>

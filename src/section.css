@@ -1,7 +1,7 @@
 .accordion-item {
     border: 1px solid black;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-radius: 10px;
+    border-radius: 10px;
     display:flex;
     flex-direction:column;
     margin-top: 20px;
@@ -13,26 +13,22 @@
     justify-content: space-between;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-
+    font-size:30px;
     align-items: center;
     padding-left: 20px;
     padding-right:20px;
     padding-top:10px;
     padding-bottom: 10px;
-    background-color:gray;
 }
 
 .accordion-content{
     padding: 20px;
 }
 
-.all_steps{
-    margin-bottom:30px;
-}
-
-.collapsed_steps {
-    margin-bottom:0px;
-    height:0px;
+.performance_name{
+    margin-top:20px;
+    margin-bottom:20px;
+    font-size:45px;
 }
 
 .step{
@@ -46,9 +42,11 @@
 }
 
 .step_directions{
-    margin-left:30px;
+    margin-top:10px;
+    margin-left:20px;
 }
 
-.step_image{
-
+.step_video{
+    margin-top:30px;
+    margin-left:40px;
 }
